@@ -46,3 +46,19 @@ func SumOfValues(array []int) (sum int) {
 	}
 	return
 }
+
+func MaxInArray(array []int) int {
+	max := array[0]
+	for _, value := range array {
+		max = int(math.Max(float64(value), float64(max)))
+	}
+	return max
+}
+
+func MinInArray(array []int) int {
+	min := array[0]
+	for _, value := range array {
+		min = int(math.Min(float64(value), float64(min)))
+	}
+	return min
+}
