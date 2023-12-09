@@ -3,6 +3,7 @@ package main
 import (
 	"aoc/basics"
 	"fmt"
+	"math"
 	"regexp"
 	"strconv"
 	"strings"
@@ -12,12 +13,10 @@ import (
 func computeValue(result *int, time int, distance int, wg *sync.WaitGroup) {
 	defer wg.Done()
 	*result = 0
-	for loopIndex := 1; loopIndex < time; loopIndex++ {
-		totalDistance := (time - loopIndex) * loopIndex
-		if totalDistance > distance {
-			*result = (*result) + 1
-		}
-	}
+	distance++
+	determinant := math.Sqrt(math.Pow(float64(time), 2) - float64(4*distance))
+	point1, point2 := int(math.Ceil((float64(time)-determinant)/2)), int((float64(time)+determinant)/2)
+	*result = point2 - point1 + 1
 }
 
 func main() {
@@ -30,8 +29,6 @@ func main() {
 	regForDigits := regexp.MustCompile(`\d+`)
 	timeStringArray := regForDigits.FindAllString(array[0], -1)
 	distanceStringArray := regForDigits.FindAllString(array[1], -1)
-
-	fmt.Println(timeStringArray, distanceStringArray)
 
 	results := make([]int, len(timeStringArray)+1)
 	wg.Add(len(results))
